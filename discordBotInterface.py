@@ -13,11 +13,11 @@ helpBanner = f"""
 Type ".<command>" into the chat box and send it! The bot will respond with the appropriate output.
 E.g. To start the game, simply type ".start" and send the message.
 ### Commands:
-- ```.hi : show information about the bot```
-- ```.start : start the bot```
-- ```.guess <guess> : submit a guess to the bot (note: replace <guess> with your answer to the question)```
-- ```.skip : skip the current question and show the correct answer```
-- ```.commands : show this help page!```
+- ```.hi```: show information about the bot
+- ```.start```: start the bot
+- ```.guess <guess>```: submit a guess to the bot (note: replace <guess> with your answer to the question)
+- ```.skip```: skip the current question and show the correct answer
+- ```.commands```: show this help page!
 """
 
 load_dotenv()
@@ -42,7 +42,7 @@ async def on_ready():
 
 @bot.command(name="hi")
 async def onGreeting(ctx, *args):
-    await ctx.message.channel.send("Hi! 🔥 \nNeed help? Type the command .commands to see all available commands!")
+    await ctx.message.channel.send("Hi! 🔥 \nNeed help? Type the command ```.commands``` to see all available commands!")
 
 @bot.command(name='guess')
 async def onGuess(ctx, *args):
