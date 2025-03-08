@@ -11,10 +11,10 @@ Simply clone this entire repository!
 3. Run ```main.py``` and follow the prompts (note: package installation setup process is only required for the first run of the app)
 4. Go to the server in which you added the bot and type ```.start``` to begin using the bot!
 ### Adding/removing question categories
-The possible categories used to prompt the AI model are all contained within the ```categories.json``` file. 
-To add/remove new categories, simply add/remove elements from the JSON array contained within ```categories.json```.
-In order to see the changes, you will need to restart the bot.
-#### Additional notes
+- The possible categories used to prompt the AI model are all contained within the ```categories.json``` file
+- To add/remove new categories, simply add/remove elements from the JSON array contained within ```categories.json```
+- In order to see the changes, you will need to restart the bot
+### Additional notes
 - You may want to check out information available online about how to make your own Discord bot as it can significantly help with the process of setting up this bot
 ## Technical details
 This project is a Discord bot that makes use of Google Gemini to generate science related trivia questions. It will definitely be a fun little addition to the servers of you science lovers out there ;)
