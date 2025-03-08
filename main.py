@@ -3,7 +3,7 @@ import sys
 import time
 import discordBotInterface
 
-VERSION_NUMBER = "1.1.0"
+VERSION_NUMBER = "2.0.0"
 
 def getVersionNumber() -> str:
     return VERSION_NUMBER

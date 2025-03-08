@@ -43,7 +43,7 @@ class QuestionCategory(enum.Enum):
     ASTRO = 15
 
     def randomCategory():
-        return random.choice(list(QuestionCategory))
+        return random.randrange(0, len(categories))
 
 
 class QuestionGenerator:
@@ -51,7 +51,7 @@ class QuestionGenerator:
         self.questionHistory = ""
     
     def getQuestion(self, subject) -> question:
-        return self.getQuestionAsStructuredResponse(f"generate 1 {categories[subject.value]} question fill in the blank style, 1 word answer per question. these questions should be difficult for high school students. The following questions have been given and should not be repeated: {self.questionHistory}")
+        return self.getQuestionAsStructuredResponse(f"generate 1 {categories[subject]} question fill in the blank style, 1 word answer per question. these questions should be difficult for high school students. The following questions have been given and should not be repeated: {self.questionHistory}")
     
     def getQuestionAsStructuredResponse(self, message : str) -> question:
         response = client.models.generate_content(
