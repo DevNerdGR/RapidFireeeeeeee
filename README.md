@@ -2,7 +2,7 @@
 ## Installation
 Simply clone this entire repository!
 ## Usage
-1. In the same directory as ```setup.py```, create a ```.env``` file containing the following fields:
+1. In the same directory as ```main.py```, create a ```.env``` file containing the following fields:
   - ```GEMINI_API_KEY```: API key for Google Gemini
   - ```DISCORD_WEBHOOK_URL```: Discord webhook URL for which the bot status updates should be posted to (currently, the only updates are when the bot becomes online and when the bot goes offline)
   - ```DISCORD_BOT_TOKEN```: Discord bot token
