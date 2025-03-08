@@ -4,20 +4,22 @@ from discord.ext.commands import Bot
 import discord
 import questionRetriever
 from questionRetriever import QuestionCategory
-import setup
+import main
+import discordWebhookInterface
+import signal
 
 helpBanner = f"""
-# RapidFireeeeeeee: Rapid Response Training Bot, v{setup.VERSION_NUMBER}
+# RapidFireeeeeeee: Rapid Response Training Bot, v{main.getVersionNumber()}
 ## Created by Tew Gun Rui
 ### Usage:
 Type ".<command>" into the chat box and send it! The bot will respond with the appropriate output.
 E.g. To start the game, simply type ".start" and send the message.
 ### Commands:
-- ```.hi```: show information about the bot
-- ```.start```: start the bot
-- ```.guess <guess>```: submit a guess to the bot (note: replace <guess> with your answer to the question)
-- ```.skip```: skip the current question and show the correct answer
-- ```.commands```: show this help page!
+- ```.hi : show information about the bot```
+- ```.start : start the bot```
+- ```.guess <guess> : submit a guess to the bot (note: replace <guess> with your answer to the question)```
+- ```.skip : skip the current question and show the correct answer```
+- ```.commands : show this help page!```
 """
 
 load_dotenv()
@@ -39,10 +41,11 @@ async def on_ready():
     print(f'{bot.user} has connected to Discord!')
     for g in bot.guilds:
         print(g.name)
+    discordWebhookInterface.alertOnline()
 
 @bot.command(name="hi")
 async def onGreeting(ctx, *args):
-    await ctx.message.channel.send("Hi! 🔥 \nNeed help? Type the command ```.commands``` to see all available commands!")
+    await ctx.message.channel.send("Hi! 🔥 \nNeed help? Type the command .commands to see all available commands!")
 
 @bot.command(name='guess')
 async def onGuess(ctx, *args):
@@ -72,4 +75,11 @@ async def onSkip(ctx, *args):
 async def onHelp(ctx, *args):
     await ctx.message.channel.send(helpBanner)
 
-bot.run(TOKEN)
+def exitHandler(signum, frame):
+    discordWebhookInterface.alertOffline()
+    exit(0)
+
+signal.signal(signal.SIGINT, exitHandler)
+
+def startBot():
+    bot.run(TOKEN)
