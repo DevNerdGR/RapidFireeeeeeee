@@ -1,4 +1,4 @@
-# RapidFireeeeeeee 🔥, v1.1.0
+# RapidFireeeeeeee 🔥, v2.0.0
 ## Installation
 Simply clone this entire repository!
 ## Usage
