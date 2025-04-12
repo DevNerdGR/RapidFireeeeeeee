@@ -59,6 +59,19 @@ async def onGuess(ctx, *args):
         else:
             await ctx.message.channel.send("Wrong, try again or skip with command .skip")
 
+@bot.command(name='g')
+async def onGuess(ctx, *args):
+    print(len(args))
+    if len(args) != 1:
+        await ctx.message.channel.send("Invalid input! Please enter exactly one word as your answer.")
+    else:
+        if args[0].lower().strip() == answer.lower().strip():
+            await ctx.message.channel.send("Correct! Next question")
+            await sendQuestion(ctx)
+        else:
+            await ctx.message.channel.send("Wrong, try again or skip with command .skip")
+
+
 @bot.command(name="start")
 async def sendQuestion(ctx, *args):
     qn = qnGen.getQuestion(QuestionCategory.randomCategory())
@@ -67,6 +80,11 @@ async def sendQuestion(ctx, *args):
     await ctx.message.channel.send(f"Question: {qn.question}")
 
 @bot.command(name="skip")
+async def onSkip(ctx, *args):
+    await ctx.message.channel.send(f"Question skipped! The answer was \"{answer}\"")
+    await sendQuestion(ctx)
+
+@bot.command(name="s")
 async def onSkip(ctx, *args):
     await ctx.message.channel.send(f"Question skipped! The answer was \"{answer}\"")
     await sendQuestion(ctx)
