@@ -1,4 +1,4 @@
-from google import genai
+from openai import OpenAI
 from dotenv import load_dotenv, dotenv_values
 from pydantic import BaseModel, TypeAdapter
 import os
@@ -7,8 +7,8 @@ import enum
 import random
 
 load_dotenv()
-apiKey = os.getenv("GEMINI_API_KEY")
-client = genai.Client(api_key=apiKey)
+apiKey = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=apiKey)
 
 with open("categories.json", "r") as f:
     categories = json.loads(f.read())
@@ -51,21 +51,19 @@ class QuestionGenerator:
         self.questionHistory = ""
     
     def getQuestion(self, subject) -> question:
-        return self.getQuestionAsStructuredResponse(f"generate 1 {categories[subject]} question fill in the blank style, 1 word answer per question. these questions should be difficult for high school students. The following questions have been given and should not be repeated: {self.questionHistory}")
+        return self.getQuestionAsStructuredResponse(f"generate only ONE {categories[subject]} question fill in the blank style, 1 word answer per question. these questions should be challenging for secondary 3 school students while being doable. The following questions have been given and should not be repeated: {self.questionHistory}")
     
     def getQuestionAsStructuredResponse(self, message : str) -> question:
-        response = client.models.generate_content(
-            model = "gemini-2.0-flash", 
-            contents = message,
-            config = {
-                'response_mime_type': 'application/json',
-                'response_schema' : list[questionModel]
-            }
+        response = client.responses.parse(
+            model="gpt-5-mini",  
+            input=[{"role": "system", "content": message}],
+            text_format=questionModel,
         )
-        self.questionHistory += response.text + "\n"
-        data = json.loads(response.text)[0]
-        return question(data["category"], data["question"], data["answer"])
+        qn = response.output_parsed
+        self.questionHistory += qn.question + "\n"
+        return question(qn.category, qn.question, qn.answer)
+    
 
-
-
-
+if __name__ == "__main__":
+    g = QuestionGenerator() 
+    print(g.getQuestion(6))

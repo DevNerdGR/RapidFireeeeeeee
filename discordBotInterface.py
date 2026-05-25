@@ -36,12 +36,16 @@ qnGen = questionRetriever.QuestionGenerator()
 
 answer = ""
 
+cachedQn = None
+
 @bot.event
 async def on_ready():
+    global cachedQn
     print(f'{bot.user} has connected to Discord!')
     for g in bot.guilds:
         print(g.name)
     discordWebhookInterface.alertOnline()
+    cachedQn = qnGen.getQuestion(QuestionCategory.randomCategory())
 
 @bot.command(name="hi")
 async def onGreeting(ctx, *args):
@@ -74,10 +78,15 @@ async def onGuess(ctx, *args):
 
 @bot.command(name="start")
 async def sendQuestion(ctx, *args):
-    qn = qnGen.getQuestion(QuestionCategory.randomCategory())
+    global cachedQn
+    if cachedQn:
+        qn = cachedQn
+    else:
+        qn = qnGen.getQuestion(QuestionCategory.randomCategory())
     global answer
     answer = qn.answer
-    await ctx.message.channel.send(f"Question: {qn.question}")
+    await ctx.message.channel.send(f"Question: {qn.question} ({len(answer.strip())} characters)")
+    cachedQn = qnGen.getQuestion(QuestionCategory.randomCategory())
 
 @bot.command(name="skip")
 async def onSkip(ctx, *args):
